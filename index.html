@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Remi — The Curated Mind</title>
+    <meta name="description" content="Your private daily dashboard. Tasks, notes, and time — all in one place.">
+
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json">
+
+    <!-- Theme & Status Bar -->
+    <meta name="theme-color" content="#0A0A0C">
+    <meta name="msapplication-TileColor" content="#0A0A0C">
+
+    <!-- iOS PWA Support -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Remi">
+    <link rel="apple-touch-icon" href="/icon-192.png">
+
+    <!-- Android -->
+    <meta name="mobile-web-app-capable" content="yes">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="src/style.css">
+    <link rel="icon" href="/icon-192.png" type="image/png">
+</head>
+
+<body>
+
+    <!-- Onboarding Modal -->
+    <div id="onboarding-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <h2>Welcome to Remi</h2>
+            <p>Set your daily schedule to get started.</p>
+            <div class="form-group">
+                <label>Wake Up Time</label>
+                <input type="time" id="onboard-wake" value="06:00">
+            </div>
+            <div class="form-group">
+                <label>Sleep Time</label>
+                <input type="time" id="onboard-sleep" value="22:00">
+            </div>
+            <button id="onboard-save" class="primary-btn">Begin →</button>
+        </div>
+    </div>
+
+    <!-- Settings Modal -->
+    <div id="settings-modal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Settings</h2>
+                <button id="close-settings" class="close-btn">×</button>
+            </div>
+            <div class="form-group">
+                <label>Wake Up Time</label>
+                <input type="time" id="settings-wake">
+            </div>
+            <div class="form-group">
+                <label>Sleep Time</label>
+                <input type="time" id="settings-sleep">
+            </div>
+            <div class="form-group">
+                <label>Theme</label>
+                <select id="settings-theme">
+                    <option value="dark">Dark</option>
+                    <option value="light">Light</option>
+                </select>
+            </div>
+
+            <button id="save-settings" class="primary-btn">Save</button>
+        </div>
+    </div>
+
+    <!-- App -->
+    <div id="app" class="app-container">
+        <!-- Header -->
+        <header class="header">
+            <div class="day-group">
+                <span id="day-count" class="day-num">1</span><span id="day-total" class="day-denom">/365</span>
+            </div>
+            <button id="settings-btn" class="icon-menu-btn" aria-label="Settings">
+                <div class="icon-bars"></div>
+            </button>
+        </header>
+
+        <!-- Day Dots -->
+        <div class="dots-outer">
+            <div id="day-dots" class="day-dots-grid"></div>
+        </div>
+
+        <!-- Scrollable Content -->
+        <main class="content-scroll">
+
+            <!-- Daily Tasks Card -->
+            <div class="card daily-card">
+                <div class="card-header">
+                    <h2 class="card-title">Daily</h2>
+                    <button id="add-task-btn" class="icon-btn">+</button>
+                </div>
+                <div id="tasks-container"></div>
+                <div id="add-task-form" class="add-task-form hidden">
+                    <input type="text" id="task-input" placeholder="Task description...">
+                    <input type="text" id="task-time" placeholder="Time range (e.g. 2-3pm)">
+                    <button id="save-task-btn" class="form-submit-btn">Add Task</button>
+                </div>
+            </div>
+
+            <!-- Wake / Sleep Time Bar -->
+            <div class="time-bar-section">
+                <div class="time-bar-labels">
+                    <span id="wake-label" class="time-lbl">&#8593; 6:00 am</span>
+                    <span id="sleep-label" class="time-lbl">10:00 pm &#8595;</span>
+                </div>
+                <div class="progress-track">
+                    <div class="progress-fill" id="time-progress"></div>
+                </div>
+            </div>
+
+            <!-- Notes Card -->
+            <div class="card notes-card">
+                <div class="card-header">
+                    <h2 class="card-title">Notes</h2>
+                    <div class="card-actions">
+                        <button id="toggle-view-btn" class="icon-btn" title="Toggle View">&#9783;</button>
+                    </div>
+                </div>
+                <div id="notes-container" class="notes-list-view"></div>
+            </div>
+
+            <!-- Scrap Zone Card -->
+            <div class="card scrap-card">
+                <div class="card-header">
+                    <h2 class="card-title">Scrap</h2>
+                </div>
+                <div id="scraps-container"></div>
+            </div>
+
+        </main>
+
+        <!-- Input Bar -->
+        <div class="input-panel">
+            <div class="input-wrap">
+                <input type="text" id="note-input" placeholder="type shi....">
+                <button id="send-btn" class="send-btn">&#9654;</button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast hidden">
+        <span id="toast-msg"></span>
+        <button id="toast-action" class="toast-action-btn hidden"></button>
+    </div>
+
+    <script type="module" src="src/app.js"></script>
+</body>
+
+</html>
