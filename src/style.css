@@ -267,12 +267,30 @@ body {
     opacity: 0.8;
 }
 
+.note-section {
+    padding: 8px;
+    border-radius: 12px;
+    transition: background 0.3s ease;
+}
+
+.note-section.drag-over {
+    background: rgba(46, 207, 189, 0.05);
+    outline: 2px dashed var(--teal);
+}
+
 .note-bullet {
     display: flex;
     gap: 8px;
     font-weight: 700;
     font-size: 1rem;
-    padding: 2px 0;
+    padding: 4px 8px;
+    cursor: grab;
+    transition: transform 0.1s ease;
+}
+
+.note-bullet.is-dragging {
+    opacity: 0.4;
+    cursor: grabbing;
 }
 
 /* ── Scrap Zone ────────────────────────────── */
@@ -419,5 +437,78 @@ body {
     padding: 8px 16px;
     border-radius: 20px;
     z-index: 2000;
+}
+
+/* ── Settings Lists ─────────────────────────── */
+.settings-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.settings-list-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--input-bg);
+    padding: 8px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    font-weight: 500;
+}
+
+.remove-heading-btn {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    font-size: 1.2rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.inline-form {
+    display: flex;
+    gap: 8px;
+}
+
+.inline-form input {
+    flex: 1;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 8px 12px;
+    color: var(--text);
+    font-family: inherit;
+}
+
+.inline-form input:focus { outline: none; border-color: var(--blue); }
+
+.small-btn {
+    padding: 8px 16px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border-radius: 12px;
+    cursor: pointer;
+}
+
+.secondary-btn {
+    background: var(--border);
+    border: 1px solid var(--border);
+    color: var(--text);
+    transition: var(--ease);
+}
+.secondary-btn:hover { background: var(--text-muted); color: var(--bg); }
+
+.primary-btn {
+    width: 100%;
+    background: var(--blue);
+    border: none;
+    padding: 12px;
+    border-radius: 12px;
+    color: white;
+    font-weight: 700;
+    margin-top: 20px;
+    cursor: pointer;
 }
 
