@@ -339,6 +339,26 @@ document.getElementById('save-settings').addEventListener('click', () => {
     showToast('Settings saved');
 });
 
+document.getElementById('update-btn').addEventListener('click', async () => {
+    showToast('Checking for updates...');
+    if ('serviceWorker' in navigator) {
+        try {
+            const reg = await navigator.serviceWorker.getRegistration();
+            if (reg) {
+                await reg.update();
+                showToast('Reloading...');
+                setTimeout(() => window.location.reload(true), 1000);
+            } else {
+                window.location.reload(true);
+            }
+        } catch (e) {
+            window.location.reload(true);
+        }
+    } else {
+        window.location.reload(true);
+    }
+});
+
 
 
 // ── Long Press & Context Menu ───────────────────────────────────────────────
