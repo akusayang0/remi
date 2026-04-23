@@ -198,6 +198,8 @@ async function init() {
     applyTheme();
     renderAll();
     checkDailyReset();
+    setupDeleteZone();
+    setupUpdateBtn();
 
     setInterval(() => {
         renderTimeBar();
@@ -257,17 +259,22 @@ const toastEl         = document.getElementById('toast');
 const toastMsg        = document.getElementById('toast-msg');
 const toastAction     = document.getElementById('toast-action');
 const toggleViewBtn   = document.getElementById('toggle-view-btn');
-const deleteZone      = document.getElementById('delete-zone');
 
-// ── Delete Zone Logic ────────────────────────────────────────────────────────
-deleteZone.ondragover = (e) => { e.preventDefault(); deleteZone.classList.add('drag-over'); };
-deleteZone.ondragleave = () => { deleteZone.classList.remove('drag-over'); };
-deleteZone.ondrop = (e) => {
-    e.preventDefault();
-    deleteZone.classList.remove('drag-over');
-    const noteIndex = e.dataTransfer.getData('noteIndex');
-    if (noteIndex !== "") deleteNote(parseInt(noteIndex));
-};
+let deleteZone = null;
+
+function setupDeleteZone() {
+    deleteZone = document.getElementById('delete-zone');
+    if (!deleteZone) return;
+    
+    deleteZone.ondragover = (e) => { e.preventDefault(); deleteZone.classList.add('drag-over'); };
+    deleteZone.ondragleave = () => { deleteZone.classList.remove('drag-over'); };
+    deleteZone.ondrop = (e) => {
+        e.preventDefault();
+        deleteZone.classList.remove('drag-over');
+        const noteIndex = e.dataTransfer.getData('noteIndex');
+        if (noteIndex !== "") deleteNote(parseInt(noteIndex));
+    };
+}
 
 // ── Onboarding ────────────────────────────────────────────────────────────────
 document.getElementById('onboard-save').addEventListener('click', () => {
@@ -350,25 +357,29 @@ document.getElementById('save-settings').addEventListener('click', () => {
     showToast('Settings saved');
 });
 
-document.getElementById('update-btn').addEventListener('click', async () => {
-    showToast('Checking for updates...');
-    if ('serviceWorker' in navigator) {
-        try {
-            const reg = await navigator.serviceWorker.getRegistration();
-            if (reg) {
-                await reg.update();
-                showToast('Reloading...');
-                setTimeout(() => window.location.reload(true), 1000);
-            } else {
+function setupUpdateBtn() {
+    const btn = document.getElementById('update-btn');
+    if (!btn) return;
+    btn.addEventListener('click', async () => {
+        showToast('Checking for updates...');
+        if ('serviceWorker' in navigator) {
+            try {
+                const reg = await navigator.serviceWorker.getRegistration();
+                if (reg) {
+                    await reg.update();
+                    showToast('Reloading...');
+                    setTimeout(() => window.location.reload(true), 1000);
+                } else {
+                    window.location.reload(true);
+                }
+            } catch (e) {
                 window.location.reload(true);
             }
-        } catch (e) {
+        } else {
             window.location.reload(true);
         }
-    } else {
-        window.location.reload(true);
-    }
-});
+    });
+}
 
 
 
