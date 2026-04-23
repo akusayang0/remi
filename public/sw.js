@@ -1,9 +1,7 @@
-const CACHE_NAME = 'remi-v1';
+const CACHE_NAME = 'remi-v2';
 const ASSETS = [
   '/',
   '/index.html',
-  '/src/style.css',
-  '/src/app.js',
   '/icon-192.png',
   '/icon-512.png',
   'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Newsreader:ital,opsz,wght@0,6..72,300..700;1,6..72,300..700&display=swap'
