@@ -257,6 +257,17 @@ const toastEl         = document.getElementById('toast');
 const toastMsg        = document.getElementById('toast-msg');
 const toastAction     = document.getElementById('toast-action');
 const toggleViewBtn   = document.getElementById('toggle-view-btn');
+const deleteZone      = document.getElementById('delete-zone');
+
+// ── Delete Zone Logic ────────────────────────────────────────────────────────
+deleteZone.ondragover = (e) => { e.preventDefault(); deleteZone.classList.add('drag-over'); };
+deleteZone.ondragleave = () => { deleteZone.classList.remove('drag-over'); };
+deleteZone.ondrop = (e) => {
+    e.preventDefault();
+    deleteZone.classList.remove('drag-over');
+    const noteIndex = e.dataTransfer.getData('noteIndex');
+    if (noteIndex !== "") deleteNote(parseInt(noteIndex));
+};
 
 // ── Onboarding ────────────────────────────────────────────────────────────────
 document.getElementById('onboard-save').addEventListener('click', () => {
@@ -546,19 +557,20 @@ function renderNotes() {
                     const noteIndex = state.notes.indexOf(note);
                     e.dataTransfer.setData('noteIndex', noteIndex);
                     row.classList.add('is-dragging');
+                    deleteZone.classList.remove('hidden');
+                    // Small timeout to allow the transition to work
+                    setTimeout(() => deleteZone.classList.add('active'), 10);
                 };
-                row.ondragend = () => row.classList.remove('is-dragging');
+                row.ondragend = () => {
+                    row.classList.remove('is-dragging');
+                    deleteZone.classList.remove('active');
+                    setTimeout(() => deleteZone.classList.add('hidden'), 300);
+                };
 
                 setupLongPress(row, (x, y) => {
-                    const noteIndex = state.notes.indexOf(note);
-                    const moveOptions = state.headings
-                        .filter(h => h !== heading)
-                        .map(h => ({ label: `Move to ${h}`, action: () => moveNote(noteIndex, h) }));
-                    
-                    showContextMenu(x, y, [
-                        ...moveOptions,
-                        { label: 'Delete Note', destructive: true, action: () => deleteNote(noteIndex) }
-                    ]);
+                    // Holding a note now just provides a small wiggle or hint 
+                    // since we moved all actions to Drag-and-Drop.
+                    // We could add an "Edit" option here later if needed.
                 });
                 
                 sec.appendChild(row);

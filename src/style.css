@@ -439,6 +439,52 @@ body {
     z-index: 2000;
 }
 
+/* ── Delete Zone ───────────────────────────── */
+.delete-drop-zone {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100%;
+    max-width: 430px;
+    height: 0px; /* Initially hidden */
+    background: rgba(255, 59, 48, 0.05);
+    border-bottom: 2px solid transparent;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 5000;
+    overflow: hidden;
+    transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s ease, border-color 0.3s ease;
+    backdrop-filter: blur(8px);
+}
+
+/* Shown when dragging globally */
+.delete-drop-zone.active {
+    height: 70px;
+    border-color: #FF3B30;
+    background: rgba(255, 59, 48, 0.15);
+}
+
+.delete-drop-zone.drag-over {
+    background: #FF3B30;
+    height: 90px;
+}
+
+.delete-drop-zone.drag-over .delete-hint {
+    color: white;
+    transform: scale(1.1);
+}
+
+.delete-hint {
+    color: #FF3B30;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    transition: all 0.2s ease;
+}
+
 /* ── Settings Lists ─────────────────────────── */
 .settings-list {
     display: flex;
