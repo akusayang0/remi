@@ -649,6 +649,7 @@ function addToScrap() {
     state.scraps.unshift({ text, timestamp: Date.now() });
     save(); renderScraps();
     showToast('Dropped in Scrap');
+    noteInput.focus(); // Keep keyboard open
 }
 
 document.getElementById('send-btn').addEventListener('click', addToScrap);
